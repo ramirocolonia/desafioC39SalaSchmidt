@@ -2,6 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
 import passport from "passport";
+import swaggerUI from "swagger-ui-express";
 
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -14,6 +15,7 @@ import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
 import MongoConnection from "./config/MongoConnection.js";
 import errorHandler from "./middlewares/errors/index.js"
+import { swaggerSpecs } from "./config/doc.config.js";
 
 const app = express();
 const PORT = config.port;
@@ -42,5 +44,5 @@ app.use("/", cartsRouter);
 app.use("/", chatsRouter);
 app.use("/", usersRouter);
 app.use("/", mockingRouter);
-
+app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 app.use(errorHandler);
